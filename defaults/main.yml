@@ -1,0 +1,11 @@
+---
+linotp_admin: admin
+linotp_user: linotp
+linotp_group: linotp
+linotp_home: /opt/linotp
+linotp_email: linotp@localhost
+linotp_ldap_url:
+linotp_ldap_filter:
+linotp_encryption_key: enckey
+linotp_audit_private_key:
+linotp_audit_public_key:

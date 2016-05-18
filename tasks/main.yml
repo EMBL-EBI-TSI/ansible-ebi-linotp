@@ -1,0 +1,75 @@
+---
+- name: Install package dependencies
+  yum: name={{item}} state=present enablerepo=mysql56-community
+  with_items:
+    - python-virtualenv
+    - python-devel
+    - swig
+    - gcc
+    - openssl-devel
+    - openssl
+    - openldap-devel
+    - mysql-devel
+    - libjpeg-devel
+
+- name: check if firewalld is active
+  command: service firewalld status
+  register: firewalld_st
+  ignore_errors: true
+  changed_when: false
+
+- name: Open firewall
+  firewalld: service=https permanent=true immediate=yes state=enabled
+  when: firewalld_st.rc == 0
+
+- name: Add group
+  group: name={{linotp_group}} state=present
+
+- name: Add user
+  user: name={{linotp_user}} group={{linotp_group}} home={{linotp_home}} state=present
+
+- name: Fix permission on home directory
+  file: path={{linotp_home}} owner={{linotp_user}} group={{linotp_group}} mode=0755 state=directory
+
+- name: Upgrade pip in virtualenv
+  pip: name={{item}} virtualenv={{linotp_home}} state=latest
+  with_items:
+    - pip
+    - pip-tools
+  become: yes
+  become_user: '{{linotp_user}}'
+
+- name: Install python dependencies in virtualenv
+  pip: name={{item}} virtualenv={{linotp_home}} state=present
+  with_items:
+    - linotp
+    - pillow
+    - pillow-pil
+    - m2crypto
+    - mysql-python
+  become: yes
+  become_user: '{{linotp_user}}'
+
+- name: Drop configuration template
+  template: dest={{linotp_home}}/etc/linotp2/linotp.ini src=linotp.ini.j2 owner={{linotp_user}} group={{linotp_group}} mode=0644
+
+- name: Drop keys
+  copy: dest={{linotp_home}}/etc/linotp2/{{item.file}} content='{{item.key}}' owner={{linotp_user}} group={{linotp_group}} mode=0400
+  with_items:
+    - {file: encKey, key: '{{linotp_encryption_key}}'}
+    - {file: private.pem, key: '{{linotp_audit_private_key}}'}
+    - {file: public.pem, key: '{{linotp_audit_public_key}}'}
+
+- name: Make sure log directory is present
+  file: path=/var/log/linotp state=directory owner={{linotp_user}} group={{linotp_group}} mode=0750
+
+- name: Make sure wsgi run directory is present
+  file: path=/var/run/wsgi state=directory owner={{linotp_user}} group={{linotp_group}} mode=0750
+
+- name: Drop wsgi application file
+  template: dest={{linotp_home}}/etc/linotp2/linotpapp.wsgi src=linotpapp.wsgi.j2 owner={{linotp_user}} group={{linotp_group}} mode=0755
+  notify: restart apache
+
+- name: Drop apache config file
+  template: dest=/etc/httpd/conf.d/linotp.conf src=apache.conf.j2 mode=0644
+  notify: restart apache
