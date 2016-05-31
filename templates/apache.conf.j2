@@ -31,7 +31,7 @@
         AuthType Basic
         AuthBasicProvider ldap
         AuthLDAPURL "{{linotp_ldap_url}}"
-        Require ldap-filter "{{linotp_ldap_filter}}"
+        Require ldap-filter {{linotp_ldap_filter}}
     </LocationMatch>
 
     <LocationMatch /(audit|manage|system|license|admin)>
@@ -39,7 +39,7 @@
         AuthType Basic
         AuthBasicProvider ldap
         AuthLDAPURL "{{linotp_ldap_url}}"
-        Require ldap-filter "{{linotp_ldap_filter}}"
+        Require ldap-filter {{linotp_ldap_filter}}
     </LocationMatch>
 
     <Location /gettoken>
@@ -66,7 +66,6 @@
     CustomLog /var/log/httpd/ssl_access.log LinOTP2
 
     SSLEngine on
-
     SSLCertificateFile    /etc/ssl/{{ansible_fqdn}}/{{ansible_fqdn}}.pem
     SSLCertificateKeyFile /etc/ssl/{{ansible_fqdn}}/{{ansible_fqdn}}.key
 </VirtualHost>
