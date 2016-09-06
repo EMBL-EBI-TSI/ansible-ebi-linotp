@@ -39,10 +39,14 @@
   become: yes
   become_user: '{{linotp_user}}'
 
+- name: Install linotp in virtualenv
+  pip: name=linotp version={{linotp_version}} virtualenv={{linotp_home}} state=present
+  become: yes
+  become_user: '{{linotp_user}}'
+
 - name: Install python dependencies in virtualenv
   pip: name={{item}} virtualenv={{linotp_home}} state=present
   with_items:
-    - linotp
     - pillow
     - pillow-pil
     - m2crypto
