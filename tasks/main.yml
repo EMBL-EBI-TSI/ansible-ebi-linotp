@@ -10,6 +10,7 @@
     - openssl
     - openldap-devel
     - libjpeg-devel
+    - mariadb-devel
 
 - name: check if firewalld is active
   command: service firewalld status
