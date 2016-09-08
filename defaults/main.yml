@@ -7,6 +7,9 @@ linotp_home: /opt/linotp
 linotp_email: linotp@localhost
 linotp_ldap_url:
 linotp_ldap_filter:
+linotp_server_name: '{{ansible_fqdn}}'
+linotp_ssl_certificate:
+linotp_ssl_certificate_key:
 linotp_encryption_key: enckey
 linotp_audit_private_key:
 linotp_audit_public_key:

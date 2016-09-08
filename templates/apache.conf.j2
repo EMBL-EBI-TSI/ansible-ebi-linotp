@@ -1,6 +1,6 @@
 <VirtualHost _default_:443>
   ServerAdmin {{linotp_email}}
-  ServerName {{ansible_fqdn}}
+  ServerName {{linotp_server_name}}
 
   Header always edit Set-Cookie ^(.*)$ $1;secure
   Header always set X-Frame-Options "DENY"
@@ -66,6 +66,6 @@
   CustomLog /var/log/httpd/ssl_access.log LinOTP2
 
   SSLEngine on
-  SSLCertificateFile    /etc/ssl/{{ansible_fqdn}}/{{ansible_fqdn}}.pem
-  SSLCertificateKeyFile /etc/ssl/{{ansible_fqdn}}/{{ansible_fqdn}}.key
+  SSLCertificateFile    {{linotp_ssl_certificate | mandatory}}
+  SSLCertificateKeyFile {{linotp_ssl_certificate_key | mandatory}}
 </VirtualHost>
