@@ -64,7 +64,7 @@ error_email_from = paste@localhost
 ## audit log database. To switch the audit capability on uncomment the
 ## linotpAudit.type, which should point to your audit log class
 linotpAudit.type = linotp.lib.audit.SQLAudit
-linotpAudit.sql.url = mysql://{{linotp_db_audit.user}}:{{linotp_db_audit.password}}@{{linotp_db_audit.hosts[0]}}/{{linotp_db_audit.name}}
+linotpAudit.sql.url = mysql://{{linotp_db_audit.user}}:{{linotp_db_audit.password}}@{{linotp_db_audit.server}}/{{linotp_db_audit.name}}
 
 linotpAudit.key.private = %(here)s/private.pem
 linotpAudit.key.public = %(here)s/public.pem
@@ -167,7 +167,7 @@ alembic.ini = %(here)s/alembic.ini
 
 
 ## define location of the LinOTP Token Database
-sqlalchemy.url = mysql://{{linotp_db_linotp.user}}:{{linotp_db_linotp.password}}@{{linotp_db_linotp.hosts[0]}}/{{linotp_db_linotp.name}}
+sqlalchemy.url = mysql://{{linotp_db_linotp.user}}:{{linotp_db_linotp.password}}@{{linotp_db_linotp.server}}/{{linotp_db_linotp.name}}
 
 sqlalchemy.pool_recycle = 3600
 
