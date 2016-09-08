@@ -10,3 +10,11 @@ linotp_ldap_filter:
 linotp_encryption_key: enckey
 linotp_audit_private_key:
 linotp_audit_public_key:
+linotp_db_linotp:
+  user: linotp
+  password: linotp
+  hosts: [localhost]
+linotp_db_audit:
+  user: linotp
+  password: linotp
+  hosts: [localhost]
