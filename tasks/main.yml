@@ -56,6 +56,7 @@
 
 - name: Drop configuration template
   template: dest={{linotp_home}}/etc/linotp2/linotp.ini src=linotp.ini.j2 owner={{linotp_user}} group={{linotp_group}} mode=0644
+  notify: restart apache
 
 - name: Drop keys
   copy: dest={{linotp_home}}/etc/linotp2/{{item.file}} content='{{item.key}}' owner={{linotp_user}} group={{linotp_group}} mode=0400
