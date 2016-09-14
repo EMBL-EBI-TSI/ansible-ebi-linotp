@@ -13,11 +13,16 @@ linotp_ssl_certificate_key:
 linotp_encryption_key: enckey
 linotp_audit_private_key:
 linotp_audit_public_key:
-linotp_db_linotp:
-  user: linotp
-  password: linotp
-  hosts: [localhost]
-linotp_db_audit:
-  user: linotp
-  password: linotp
-  hosts: [localhost]
+
+# Linotp and audit databases
+# To specify an optional port for the server use 'host:port'
+linotp_db_linotp_name: linotp
+linotp_db_linotp_user: linotp
+linotp_db_linotp_password: linotp
+linotp_db_linotp_hosts: [localhost]
+linotp_db_linotp_server: localhost
+linotp_db_audit_name: audit
+linotp_db_audit_user: linotp
+linotp_db_audit_password: linotp
+linotp_db_audit_hosts: [localhost]
+linotp_db_audit_server: localhost
