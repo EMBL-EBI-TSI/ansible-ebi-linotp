@@ -17,6 +17,7 @@
   register: firewalld_st
   ignore_errors: true
   changed_when: false
+  check_mode: no
 
 - name: Open firewall
   firewalld: service=https permanent=true immediate=yes state=enabled
