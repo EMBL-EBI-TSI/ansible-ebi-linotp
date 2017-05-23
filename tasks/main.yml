@@ -32,26 +32,24 @@
 - name: Fix permission on home directory
   file: path={{linotp_home}} owner={{linotp_user}} group={{linotp_group}} mode=0755 state=directory
 
-- name: Upgrade pip in virtualenv
-  pip: name={{item}} virtualenv={{linotp_home}} state=latest
-  with_items:
-    - pip
-    - pip-tools
-  become: yes
-  become_user: '{{linotp_user}}'
+- block:
+    - name: Upgrade pip in virtualenv
+      pip: name={{item}} virtualenv={{linotp_home}} state=latest
+      with_items:
+        - pip
+        - pip-tools
 
-- name: Install linotp in virtualenv
-  pip: name=linotp version={{linotp_version}} virtualenv={{linotp_home}} state=present
-  become: yes
-  become_user: '{{linotp_user}}'
+    - name: Install linotp in virtualenv
+      pip: name=linotp version={{linotp_version}} virtualenv={{linotp_home}} state=present
 
-- name: Install python dependencies in virtualenv
-  pip: name={{item}} virtualenv={{linotp_home}} state=present
-  with_items:
-    - pillow
-    - pillow-pil
-    - m2crypto
-    - mysql-python
+    - name: Install python dependencies in virtualenv
+      pip: name={{item}} virtualenv={{linotp_home}} state=present
+      with_items:
+        - pillow
+        - pillow-pil
+        - m2crypto
+        - mysql-python
+
   become: yes
   become_user: '{{linotp_user}}'
 
