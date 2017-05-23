@@ -14,14 +14,14 @@
 
 - name: check if firewalld is active
   command: service firewalld status
-  register: firewalld_st
+  register: linotp_firewalld_st
   ignore_errors: true
   changed_when: false
   check_mode: no
 
 - name: Open firewall
   firewalld: service=https permanent=true immediate=yes state=enabled
-  when: firewalld_st.rc == 0
+  when: linotp_firewalld_st.rc == 0
 
 - name: Add group
   group: name={{linotp_group}} state=present
