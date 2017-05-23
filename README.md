@@ -16,7 +16,7 @@ See `defaults/main.yml`.
 
 Dependencies
 ------------
-Roles managing mysql, apache and certificates.
+This roles depends on apache and certificates being present in the same server. Additionally a mysql database should be accessible by LinOTP (see variables prefixed with `linotp_db_`). Se an example of susccesful roles used to manage dependencies below.
 
 This role will drop its own apache configuration in `/etc/httpd/conf.d/linotp.conf`.
 
@@ -26,6 +26,9 @@ Example:
 ```
 - hosts: servers
   roles:
+    - mysql
+    - jdauphant.ssl-certs
+    - geerlingguy.apache
     - linotp
 ```
 
@@ -39,4 +42,4 @@ Licensed under [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
 
 Author Information
 ------------------
-Luis Gracia <luis.gracia@ebi.ac.uk>
+Luis Gracia <luis.gracia@ebi.ac.uk> [luisico](https://github.com/luisico)
